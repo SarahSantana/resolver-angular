@@ -15,7 +15,7 @@ export class ListResolver implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     const queryParam = route.queryParams;
 
-    return this.searchApi(queryParam).pipe(
+    const result = this.searchApi(queryParam.date).pipe(
       catchError(err => {
         console.log(err.message);
         this.router.navigate(['/']);
@@ -23,15 +23,20 @@ export class ListResolver implements Resolve<any> {
         return EMPTY;
       })
     );
+
+    return result;
   }
 
   searchApi(queryParam): Observable<any> {
-    return this.resultado = Observable.create(
+    this.resultado = Observable.create(
               (observer) => {
                 observer.next('Hello');
                 observer.next('World');
                 observer.complete();
             });
+
+    console.log('resultado', this.resultado);
+    return this.resultado;
   }
 
 }
